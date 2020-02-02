@@ -3,25 +3,25 @@ import Search from './components/Search';
 import axios from 'axios'
 import Results from './components/Results';
 import Popup from './components/Popup';
+import {apiurl} from './components/Const';
 
 
 function App() {
   const [state, setState]=useState({
-s:"",
+urlEnd:"",
 results:[],
 selected:{}
   });
-  const apiurl = "http://www.omdbapi.com/?apikey=885b8a6d";
-
   const search=(e)=>{
     if (e.key==="Enter"){
-axios.get(apiurl+"&s="+state.s, {params:{_limit:5}})
+axios.get(apiurl+"&s="+state.urlEnd, {params:{_limit:5}})
 .then(({data})=>{
   let results=data.Search;
   if (results){
   setState(prevState => {
     return {...prevState, results:results}
-  })}
+  })
+}
   else{
     alert("There are no movies for your search");
   }
@@ -29,20 +29,37 @@ axios.get(apiurl+"&s="+state.s, {params:{_limit:5}})
 .catch(handleErrors)
     }
   }
- 
 
-
+  function handleErrors(error) {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      alert(error.response.data);
+      alert(error.response.status);
+      alert(error.response.headers);
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      alert(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      alert('Error', error.message);
+    }
+    alert(error.config);
+  }
 
   const handleInput=(e) => {
     
-    let s=e.target.value;
+    let urlEnd=e.target.value;
 setState(prevState =>{
-  return {...prevState,s:s}
+  return {...prevState,urlEnd:urlEnd}
 });
 
   }
   const openPopup=id =>{
-    axios(apiurl+"&i="+id).then(({data})=>{
+    axios.get(apiurl+"&i="+id)
+    .then(({data})=>{
       let result=data;
 
       setState(prevState=>{
@@ -59,7 +76,7 @@ return {...prevState,selected:result}
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="Header">
 <h1>Movie Database</h1>
       </header>
       <main>
