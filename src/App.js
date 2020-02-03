@@ -4,6 +4,10 @@ import axios from 'axios'
 import Results from './components/Results';
 import Popup from './components/Popup';
 import {apiurl} from './components/Const';
+<<<<<<< HEAD
+
+=======
+>>>>>>> fbea4674b0c28f9867c116ed76e433acc3cc1d76
 
 
 function App() {
