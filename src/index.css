@@ -1,6 +1,15 @@
+.App{
+  background-color: rgb(238, 235, 222);
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+
+
 
 .results > .result:nth-child(5) ~ * { display: none; }
-
 
 .popup{
   position: fixed;
@@ -10,4 +19,40 @@
 height: 100vh ;
 background-color:#445565 ;
 overflow-y:scroll;
+}
+
+
+.container{
+display:flex;
+flex-direction: column;
+align-items: center;
+
+}
+
+
+
+.searchbox{
+  width:200px;
+}
+
+.searchBtn{
+  width:200px;
+  margin-top:1vh;
+  
+  border-radius: 30px 30px 30px 30px;
+  -webkit-box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.75);
+}
+.results{
+  margin-top:3vh;
+  display:grid;
+  grid-template-columns: 1fr  1fr;
+  grid-gap: 5vw;
+  text-align:center;
+}
+
+.result{
+  background-color:white;
+  cursor: pointer;
 }

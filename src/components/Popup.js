@@ -2,11 +2,8 @@
 import React from 'react';
 import Stars from './Stars';
 
-
-
-
 function Popup({selected, closePopup}){
-  console.log(selected);
+
     return (
    <section className="popup">
    <div className="content">
@@ -15,7 +12,7 @@ function Popup({selected, closePopup}){
 <p>Genre: {selected.Genre}</p>
 <Stars selected={selected}/>
 
- <div className="plot">
+ <div className="summary">
  <img src={selected.Poster} alt ={selected.Title}/>
  <p>{selected.Plot}</p>
  </div>

@@ -11,8 +11,8 @@ urlEnd:"",
 results:[],
 selected:{}
   });
+
   const search=(e)=>{
-    if (e.key==="Enter"){
 axios.get(apiurl+"&s="+state.urlEnd, {params:{_limit:5}})
 .then(({data})=>{
   let results=data.Search;
@@ -26,47 +26,39 @@ axios.get(apiurl+"&s="+state.urlEnd, {params:{_limit:5}})
   }
 })
 .catch(handleErrors)
-    }
   }
 
   function handleErrors(error) {
     if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
       alert(error.response.data);
       alert(error.response.status);
       alert(error.response.headers);
     } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-      // http.ClientRequest in node.js
       alert(error.request);
     } else {
-      // Something happened in setting up the request that triggered an Error
       alert('Error', error.message);
     }
     alert(error.config);
   }
 
   const handleInput=(e) => {
-    
     let urlEnd=e.target.value;
 setState(prevState =>{
   return {...prevState,urlEnd:urlEnd}
 });
-
   }
-  const openPopup=id =>{
+
+  const selectedMovie=id =>{
     axios.get(apiurl+"&i="+id)
     .then(({data})=>{
       let result=data;
-
       setState(prevState=>{
 return {...prevState,selected:result}
       });
     })
     .catch(handleErrors)
   }
+
   const closePopup = () => {
   setState(prevState=>{
     return{...prevState, selected:{}}
@@ -75,13 +67,21 @@ return {...prevState,selected:result}
 
   return (
     <div className="App">
-      <header className="Header">
-<h1>Movie Database</h1>
+       <main>
+      <div className="container">
+      <header className="header">
+<h1>Search for movies</h1>
       </header>
-      <main>
-       <Search handleInput={handleInput} search={search}/>
-     <Results results={state.results} openPopup={openPopup}/>
+     
+    
+         <div className="searchbar">
+          
+       <Search handleInput={handleInput} /><button onClick={search} className="searchBtn">Search</button> 
+       </div>
+      
+     <Results results={state.results} selectedMovie={selectedMovie}/> 
      {(typeof state.selected.Title != "undefined") ? <Popup selected={state.selected} closePopup={closePopup} /> :false}
+     </div> 
       </main>
     </div>
   );
