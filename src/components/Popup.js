@@ -8,15 +8,18 @@ function Popup({selected, closePopup}){
    <section className="popup">
    <div className="content">
    <h2>{selected.Title}<span>({selected.Year})</span></h2>
-   <p className="rating">Rating: {selected.imdbRating}</p>
-<p>Genre: {selected.Genre}</p>
-<Stars selected={selected}/>
+ 
+
 
  <div className="summary">
- <img src={selected.Poster} alt ={selected.Title}/>
- <p>{selected.Plot}</p>
+ <img src={selected.Poster} alt ={selected.Title} className="posterImg"/>
+ 
+ <p className="plot">{selected.Plot}</p>
  </div>
- <button className="close" onClick={closePopup}>Close</button>
+ <div className="rating">Rating: <Stars selected={selected}/> </div> 
+   
+<p>Genre: {selected.Genre}</p>
+ <button className="close" onClick={closePopup}>Back to search</button>
    </div>
    </section>
     )
