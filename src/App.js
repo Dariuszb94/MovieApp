@@ -2,19 +2,19 @@ import React, {useState} from 'react';
 import Search from './components/Search';
 import axios from 'axios'
 import Results from './components/Results';
-import Popup from './components/Popup';
+import SelectedMovie from './components/SelectedMovie';
 import {apiurl} from './components/Const';
 
-function App() {
+function App() { //define states 
   const [state, setState]=useState({
-urlEnd:"",
-results:[],
-selected:{}
+urlEnd:"", //unique url for movie
+results:[],  //listed movie after search
+selected:{} //popup movie
   });
 
-  const search=(e)=>{
-axios.get(apiurl+"&s="+state.urlEnd, {params:{_limit:5}})
-.then(({data})=>{
+  const getMovies=(e)=>{  
+axios.get(apiurl+"&s="+state.urlEnd, {params:{_limit:5}}) //get movies from db
+.then(({data})=>{ 
   let results=data.Search;
   if (results){
   setState(prevState => {
@@ -25,7 +25,7 @@ axios.get(apiurl+"&s="+state.urlEnd, {params:{_limit:5}})
     alert("There are no movies for your search");
   }
 })
-.catch(handleErrors)
+.catch(handleErrors) //error handling
   }
 
   function handleErrors(error) {
@@ -41,14 +41,14 @@ axios.get(apiurl+"&s="+state.urlEnd, {params:{_limit:5}})
     alert(error.config);
   }
 
-  const handleInput=(e) => {
+  const handleInput=(e) => {  //add text from text input to url
     let urlEnd=e.target.value;
 setState(prevState =>{
   return {...prevState,urlEnd:urlEnd}
 });
   }
 
-  const selectedMovie=id =>{
+  const selectedMovie=id =>{ //popup movie
     axios.get(apiurl+"&i="+id)
     .then(({data})=>{
       let result=data;
@@ -59,7 +59,7 @@ return {...prevState,selected:result}
     .catch(handleErrors)
   }
 
-  const closePopup = () => {
+  const closePopup = () => {  //back to the movie list
   setState(prevState=>{
     return{...prevState, selected:{}}
   });
@@ -70,17 +70,13 @@ return {...prevState,selected:result}
        <main>
       <div className="container">
       <header className="header">
-<h1>Search for movies</h1>
+<h1>The Movie Database</h1>
       </header>
-     
-    
          <div className="searchbar">
-          
-       <Search handleInput={handleInput} /><button onClick={search} className="searchBtn">Search</button> 
+       <Search handleInput={handleInput} /><button onClick={getMovies} className="searchBtn">Search</button> 
        </div>
-      
      <Results results={state.results} selectedMovie={selectedMovie}/> 
-     {(typeof state.selected.Title != "undefined") ? <Popup selected={state.selected} closePopup={closePopup} /> :false}
+     {(typeof state.selected.Title != "undefined") ? <SelectedMovie selected={state.selected} closePopup={closePopup} /> :false}
      </div> 
       </main>
     </div>

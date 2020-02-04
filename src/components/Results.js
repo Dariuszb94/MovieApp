@@ -2,11 +2,11 @@
 import React from 'react';
 import Result from './Result';
 
-function Results ({results, selectedMovie}){
-    return(
+function Results ({results, selectedMovie}){ //from App.js 
+    return( //creating a list of movies from "Result.js"
      <section className="results">
          {results.map(result => (
-             <Result key={result.imdbID} result={result} selectedMovie={selectedMovie}/>
+             <Result key={result.imdbID} result={result} selectedMovie={selectedMovie} />
          ))}
      </section>
     )
