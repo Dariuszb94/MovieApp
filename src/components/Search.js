@@ -1,16 +1,15 @@
 import React from 'react'
 
-function Search ({handleInput, search}){ //16:41
+function Search ({handleInput, getMovies}){ //from App.js
     return (
-   <section className="searchbox-wrap">
+  
        <input type="text" 
-       placeholder="Search for a movie..." 
+       placeholder="Type a movie title here" 
        className="searchbox" 
-       onChange={handleInput}
-       onKeyPress={search}
+       onChange={handleInput}  
+       onKeyPress={getMovies}
        />
-       </section>
- 
+     
     )
 }
 export default Search

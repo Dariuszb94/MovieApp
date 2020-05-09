@@ -2,21 +2,19 @@ import React, {useState} from 'react';
 import Search from './components/Search';
 import axios from 'axios'
 import Results from './components/Results';
-import Popup from './components/Popup';
+import SelectedMovie from './components/SelectedMovie';
 import {apiurl} from './components/Const';
 
-
-
-function App() {
+function App() { //define states 
   const [state, setState]=useState({
-urlEnd:"",
-results:[],
-selected:{}
+urlEnd:"", //unique url for movie
+results:[],  //listed movie after search
+selected:{} //popup movie
   });
-  const search=(e)=>{
-    if (e.key==="Enter"){
-axios.get(apiurl+"&s="+state.urlEnd, {params:{_limit:5}})
-.then(({data})=>{
+
+  const getMovies=(e)=>{  
+axios.get(apiurl+"&s="+state.urlEnd, {params:{_limit:5}}) //get movies from db
+.then(({data})=>{ 
   let results=data.Search;
   if (results){
   setState(prevState => {
@@ -27,49 +25,41 @@ axios.get(apiurl+"&s="+state.urlEnd, {params:{_limit:5}})
     alert("There are no movies for your search");
   }
 })
-.catch(handleErrors)
-    }
+.catch(handleErrors) //error handling
   }
 
   function handleErrors(error) {
     if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
       alert(error.response.data);
       alert(error.response.status);
       alert(error.response.headers);
     } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-      // http.ClientRequest in node.js
       alert(error.request);
     } else {
-      // Something happened in setting up the request that triggered an Error
       alert('Error', error.message);
     }
     alert(error.config);
   }
 
-  const handleInput=(e) => {
-    
+  const handleInput=(e) => {  //add text from text input to url
     let urlEnd=e.target.value;
 setState(prevState =>{
   return {...prevState,urlEnd:urlEnd}
 });
-
   }
-  const openPopup=id =>{
+
+  const selectedMovie=id =>{ //popup movie
     axios.get(apiurl+"&i="+id)
     .then(({data})=>{
       let result=data;
-
       setState(prevState=>{
 return {...prevState,selected:result}
       });
     })
     .catch(handleErrors)
   }
-  const closePopup = () => {
+
+  const closePopup = () => {  //back to the movie list
   setState(prevState=>{
     return{...prevState, selected:{}}
   });
@@ -77,13 +67,17 @@ return {...prevState,selected:result}
 
   return (
     <div className="App">
-      <header className="Header">
-<h1>Movie Database</h1>
+       <main>
+      <div className="container">
+      <header className="header">
+<h1>The Movie Database</h1>
       </header>
-      <main>
-       <Search handleInput={handleInput} search={search}/>
-     <Results results={state.results} openPopup={openPopup}/>
-     {(typeof state.selected.Title != "undefined") ? <Popup selected={state.selected} closePopup={closePopup} /> :false}
+         <div className="searchbar">
+       <Search handleInput={handleInput} /><button onClick={getMovies} className="searchBtn">Search</button> 
+       </div>
+     <Results results={state.results} selectedMovie={selectedMovie}/> 
+     {(typeof state.selected.Title != "undefined") ? <SelectedMovie selected={state.selected} closePopup={closePopup} /> :false}
+     </div> 
       </main>
     </div>
   );
