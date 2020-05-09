@@ -13,7 +13,7 @@ Project is created with:
 * React version: 16.12.0
 * Axios version: 0.19.2
 * jQuery version: 3.4.1
-* Bootstrap: 4.4.1
+* Bootstrap version: 4.4.1
 ## Setup
 To run this project, download a repo, then go to repo folder, open terminal:
 
